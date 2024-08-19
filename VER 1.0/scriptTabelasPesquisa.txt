@@ -1,0 +1,41 @@
+create table PESQUISAS ( 
+cd_pesquisa   varchar2(20), 
+ds_pesquisa   varchar2(200),
+id_situacao   varchar2(1) );  -- Ativo/Inativo  
+alter table PESQUISAS add constraint pk_PESQUISAS primary key (cd_pesquisa); 
+
+
+create table PERGUNTAS (
+cd_pesquisa     varchar2(20),
+cd_pergunta     varchar2(20),
+ds_pergunta     varchar2(500),
+ds_grupo        varchar2(200),
+nr_ordem        number(3),
+tp_resposta     varchar2(20),   --  (TEXTO, CHECKBOX, LISTA)
+id_obrigatorio  varchar2(1),    --  (S/N)
+id_multipla     varchar2(1) );  --  (S/N) 
+alter table PERGUNTAS add constrait pk_PERGUNTAS primary key (cd_pesquisa, cd_pergunta); 
+create index idx_PERGUNTAS_001 on PERGUNTAS (cd_pesquisa);
+
+
+create table PERGUNTA_OPCAO ( 
+cd_pesquisa     varchar2(20),
+cd_pergunta     varchar2(20), 
+cd_opcao        varchar2(20), 
+nr_ordem        number, 
+ds_opcao        varchar2(200), 
+vl_opcao        varchar2(20) );  
+alter table PERGUNTA_OPCAO add constraint pk_PERGUNTA_OPCAO primary key (cd_pergunta); 
+create index idx_PERGUNTA_OPCAO_001 on PERGUNTA_OPCAO (cd_pergunta);
+
+
+create table RESPOSTAS (
+cd_pesquisa     varchar2(20),
+cd_pergunta     varchar2(20),
+cd_cliente      varchar2(20),
+cd_usuario      varchar2(20)
+--
+cd_opcao        varchar2(20),
+dh_resposta     date,
+vl_resposta     varchar2(4000) ); 
+alter table RESPOSTAS add constraint pk_RESPOSTAS (cd_pesquisa, cd_pergunta, cd_cliente, cd_usuario); 
