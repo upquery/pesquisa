@@ -171,8 +171,9 @@ section, summary, time, mark {
 }
 
 .bgimg {
-  background-image: url(dwu.fcl.download?arquivo=bg_pesquisa.png); 
-  background-repeat: round;
+  /* background-image: url(dwu.fcl.download?arquivo=bg_pesquisa.png); */
+  background-image: url(dwu.fcl.download?arquivo=bg_pesquisa.jpg); 
+  /* background-repeat: round; */ 
 
 }
 
@@ -840,8 +841,11 @@ p#agrad {
    font-family: var(--fonte-terciaria);
 }
  .img-logo-up {
+  width: 360px;
+   /*
    width: 90%;
    height: 90%;
+   */ 
  }
  
  .container {

@@ -93,7 +93,8 @@ CREATE OR REPLACE PACKAGE BODY PESQUISA  IS
                     htp.p('<div id="container" class="container">');
                         select ds_pesquisa, ds_titulo into ws_ds_pesquisa, ws_ds_titulo from pqs_pesquisas where cd_pesquisa = ws_id_pesquisa; 
                         htp.p('<div class="logo-up">');
-                            htp.p('<img class="img-logo-up"src="dwu.fcl.download?arquivo=logo-upquery-pesquisa.png" width="360" height="214">');
+                            --htp.p('<img class="img-logo-up"src="dwu.fcl.download?arquivo=logo-upquery-pesquisa.png" width="360" height="214">');
+                            htp.p('<img class="img-logo-up"src="dwu.fcl.download?arquivo=logo-upquery-pesquisa.png" width="400">');
                         htp.p('</div>');
                         htp.p('<h3>'||ws_ds_titulo||'</h3>');
                         htp.p('<p>'||ws_ds_pesquisa||'</p>');
@@ -114,7 +115,8 @@ CREATE OR REPLACE PACKAGE BODY PESQUISA  IS
                             htp.p('<div class="pqs-agradecimento">');
                                 htp.p('<span class="fechar-aviso-pop" onclick="fecharAvisoPop()">FECHAR</span>');
                                     htp.p('<div class="logo-up-pop">');
-                                        htp.p('<img class="img-logo-up"src="dwu.fcl.download?arquivo=logo-upquery-pesquisa.png" width="360" height="214">');
+                                        --htp.p('<img class="img-logo-up"src="dwu.fcl.download?arquivo=logo-upquery-pesquisa.png" width="360" height="214">');
+                                        htp.p('<img class="img-logo-up"src="dwu.fcl.download?arquivo=logo-upquery-pesquisa.png" width="400">');
                                     htp.p('</div>');
                                 htp.p('<h2 class="pop-h2">Sua pesquisa foi enviada com sucesso!</h2>');
                                 htp.p('<span class="pop-span">UpQuery agradece!</span>');
@@ -191,7 +193,8 @@ CREATE OR REPLACE PACKAGE BODY PESQUISA  IS
                     htp.p('<div id="main-tela-aviso" class="bgimg">');
                         htp.p('<div class="container-tela-aviso">');
                             htp.p('<div class="logo-up">');
-                                htp.p('<img class="img-logo-up"src="dwu.fcl.download?arquivo=logo-upquery-pesquisa.png" width="360" height="188">');
+                                --htp.p('<img class="img-logo-up"src="dwu.fcl.download?arquivo=logo-upquery-pesquisa.png" width="360" height="188">');
+                                htp.p('<img class="img-logo-up"src="dwu.fcl.download?arquivo=logo-upquery-pesquisa.png" width="400">');
                             htp.p('</div>'); 
 
                             if ws_id_cliente = 'N/A'  then
@@ -207,8 +210,8 @@ CREATE OR REPLACE PACKAGE BODY PESQUISA  IS
                                     htp.p('<button id="botao-tela-aviso" onclick="window.close()">Fechar</button>');
                                 htp.p('</div>'); 
                             elsif ws_id_cliente is null and PRM_ID_USUARIO is null and ws_id_pesquisa is null  then
-                                    htp.p('<h3 id="notfound" class="tela-aviso">Essa pesquisa não está mais disponivel!</h3>');
-                                    htp.p('<p id="notfound-p">Opss! Parece que essa pesquisa não está mais disponivel ou ocorreu algum erro. Tente acessar novamente pelo BI.');
+                                    htp.p('<h3 id="notfound" class="tela-aviso">Essa pesquisa está indisponível!</h3>');
+                                    htp.p('<p id="notfound-p">Opss! Essa pesquisa pode não estar mais disponível, ou ocorreu algum erro. Tente acessar novamente pelo BI.');
                                 htp.p('<div class="centralizarDivBotao">');
                                     htp.p('<button id="botao-tela-aviso" onclick="window.close()">Fechar</button>');
                                 htp.p('</div>'); 
