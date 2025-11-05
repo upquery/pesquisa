@@ -279,7 +279,7 @@ CREATE OR REPLACE PACKAGE BODY PESQUISA  IS
                     end if;    
                     --htp.p('<div class="'||ws_class||'" id="perg-'||ws_monta_pergunta.cd_pergunta||'" data-resposta="">');
 
-                    if upper(ws_monta_pergunta.tp_resposta) in ('STAR','PESO', 'CHECKBOX', 'RADIO', 'BOTAO', 'TEXTO', 'EMOJI') then
+                    if upper(ws_monta_pergunta.tp_resposta) in ('STAR','PESO', 'CHECKBOX', 'RADIO', 'RADIO2', 'BOTAO', 'TEXTO', 'EMOJI') then
                         ws_class := upper(ws_monta_pergunta.tp_resposta);
                         if ws_monta_pergunta.id_obrigatorio = 'S' then 
                             ws_class := ws_class||' obrigatorio';
@@ -317,7 +317,9 @@ CREATE OR REPLACE PACKAGE BODY PESQUISA  IS
 
                             elsif upper(ws_monta_pergunta.tp_resposta) = 'RADIO' then
                                 htp.p('<input type="radio" name="radio-'||ws_monta_pergunta.cd_pergunta||'" '||ws_tag||'"><label for="'||ws_monta_pergunta.cd_pergunta||'-'||a.cd_opcao||'"> '||a.vl_opcao||'</label>');
-                            
+
+                            elsif upper(ws_monta_pergunta.tp_resposta) = 'RADIO2' then
+                                htp.p('<span><input type="radio" name="radio-'||ws_monta_pergunta.cd_pergunta||'" '||ws_tag||'"><label for="'||ws_monta_pergunta.cd_pergunta||'-'||a.cd_opcao||'"> '||a.ds_opcao||'</label></span>');
 
                             elsif upper(ws_monta_pergunta.tp_resposta) = 'BOTAO' then
                                 htp.p('<button type="checkbox" '||ws_tag||' >'||a.vl_opcao||'</button>');

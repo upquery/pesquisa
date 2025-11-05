@@ -302,15 +302,17 @@ a.s-peso {
 }
 
 .pergunta {
-  margin-bottom: -15px;
+  /* margin-bottom: -15px; */ 
   margin-top: 30px;
-  align-items: center;
-  display: flex;
-  justify-content: center;
+  /* align-items: center;
+   display: flex;
+  justify-content: center; */ 
+  margin-left: 40px;
 }
 
 .resposta {
   margin-top: 30px;
+  margin-left: 40px;
   height: auto;
   margin-bottom: 70px;
 }
@@ -392,6 +394,11 @@ textarea {
   margin-top: 5%;
   margin-bottom: 30px;
   /*! padding-bottom:  2%; */
+}
+
+div.RADIO2 span {
+  display: block;
+  margin-bottom: 20px;
 }
 
 .checkbox input[type="checkbox"] {
