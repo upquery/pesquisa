@@ -17,7 +17,7 @@ function chamar(proc, alvo){
         if(request.status == 200){
             //document.querySelector(alvo).innerHTML = request.responseText;   
            //alert('Enviado com sucesso')     
-            console.log('Enviado com sucesso')        
+            console.log('Enviado com sucesso');        
         }
     }; 
 
@@ -25,19 +25,13 @@ function chamar(proc, alvo){
 };
 
 
-document.addEventListener('click', function(e){
+/*document.addEventListener('click', function(e){
     if ( e.target.id == 'button-enviar') {
-        if (document.querySelector('.selected')) {
-            document.querySelector('.selected').classList.remove('selected');
-        }
 
         e.target.classList.add('selected');
     }
 
     if ( e.target.id == 'botao-tela-aviso') {
-        if (document.querySelector('.selected')) {
-            document.querySelector('.selected').classList.remove('selected');
-        }
 
         e.target.classList.add('selected');
     }
@@ -160,7 +154,7 @@ document.addEventListener('click', function(e){
         }
         e.target.closest('div').setAttribute('data-resposta-star', vl_opcao);
     };
-});
+});*/
 
 function ColetaDados() {
 
@@ -254,7 +248,7 @@ function ColetaDados() {
                 });
             };
   
-    };
+        };
     
 		if (selecionados == total + countCliq ) {
 
@@ -346,4 +340,54 @@ function abrirPopup() {
 function fecharAvisoPop() {
     let fecharPop = document.getElementById('mostrarPop');
     fecharPop.classList.remove('active')
+};
+
+async function call(proc, par) {
+  const res = await fetch(`dwu.pesquisa.${proc}`, { method: "POST", body: par });
+  if (!res.ok) throw new Error(await res.text());
+  return res.text();
+}
+
+function enviarFormulario() {
+    const jsonBody = [];
+    for(const el of document.querySelectorAll('.resposta')) {
+        const resposta = {
+            cd_pesquisa: CD_PQS,
+            cd_usuario: USUARIO,
+            cd_cliente: CLIENTE,
+            cd_pergunta: null,
+            cd_opcao: null,
+            vl_resposta: null,
+            vl_justificativa: null,
+            unico: false
+        }
+        const perg = el.firstElementChild;
+        resposta.cd_pergunta = perg.id.replace('perg-','');
+        
+        //const justificativa = perg.querySelector('.justificativa')?.value;
+    };
+    
+    console.log(jsonBody);
+}
+
+window.onload = () => {
+    document.querySelectorAll('.campo').forEach((campo) => {
+        campo.addEventListener('click',(e) => {
+            const parent = document.getElementById(campo.dataset.perg);
+
+            if(parent.dataset.multipla) {
+                e.target.classList.toggle('selected');
+                console.log('MULTIPLA');
+                return;
+            };
+
+            const ant = parent.querySelector('.selected')
+            ant?.classList?.remove('selected');
+
+            console.log('antigo',ant?.title);  
+            console.log('atual',e.target.title);
+
+            e.target.classList.add('selected');
+        });
+    });
 };

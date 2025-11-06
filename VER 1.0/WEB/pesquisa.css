@@ -183,7 +183,7 @@ section, summary, time, mark {
   background: #ffffff99;
   border-radius: 20px;
   box-shadow:  #333 0px 5px 15px;
-  padding-bottom: 1%;
+  padding: 20px 40px;
 
 }
 
@@ -307,14 +307,12 @@ a.s-peso {
   /* align-items: center;
    display: flex;
   justify-content: center; */ 
-  margin-left: 40px;
+  /* margin-left: 40px; */
 }
 
 .resposta {
-  margin-top: 30px;
-  margin-left: 40px;
   height: auto;
-  margin-bottom: 70px;
+  margin: 30px 0 70px 0;
 }
 
 .comentario {
@@ -350,7 +348,7 @@ textarea {
   content: '\2605';
 }
 
-.s-star:hover {
+.s-star:hover, .s-star.selected, .s-star:has(.s-star.selected){
   color: gold;
 }
 
@@ -464,7 +462,7 @@ button {
 
 .selected, .p-selected, .b-selected, .e-selected {
   box-shadow: 1px 4px #FFF !important;
-  transform: translateY(4px);
+  /* transform: translateY(4px); */
 }
 
 
@@ -653,6 +651,66 @@ p#agrad {
   margin-top: 40px;
   font-size: 35px;
   font-family: var(--fonte-terciaria);
+}
+
+/* TEXTO2 */
+:root{
+  /* --hover-color: rgb(0 0 0 / 15%); */
+  --hover-color: rgb(0 0 0 / 5%);
+  --border-color:  rgb(0 0 0 / 57%);
+  --bg-opaco: #fafafa;
+  /* --fonte-quaternaria: "Segoe UI", Roboto, sans-serif; */
+}
+
+.texto2 {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 20px;
+  
+}
+
+
+.texto2 > input[type="text"] {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 0.95rem;
+  transition: all 0.25s ease;
+  background-color: #fafafa;
+  outline: none;
+  color: #333;
+}
+
+.texto2 > input[type="text"]:hover {
+  box-shadow: 0 0 1px 2px var(--hover-color);
+  background-color: #fff;
+}
+
+.texto2 > input[type="text"]:focus {
+  box-shadow: 0 0 1px 2px var(--hover-color);
+  background-color: #fff;
+}
+
+.texto2 > input[type="text"]::placeholder {
+  color: #aaa;
+}
+
+.radio2 > label{
+  display: block;
+  margin: 10px 0;
+  padding: 13px;
+  background-color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+  color: #333;
+}
+.radio2 > label:hover{
+  background-color: var(--hover-color);
+}
+.radio2 input[type="radio"]{
+  margin-right: 10px;
 }
 
 

@@ -48,8 +48,8 @@ CREATE OR REPLACE PACKAGE BODY PESQUISA  IS
                 htp.prn(i.cd_constante||' = "'||fun.lang(i.vl_constante)||'", ');
             end loop;
             htp.prn('TR_END = "";');
-            htp.p('const USUARIO = "'||prm_usuario||'";');
-            htp.p('const CLIENTE = "'||nvl(ws_id_cliente, '9999')||'";');
+            htp.p('const USUARIO = "'||nvl(prm_usuario, 'DWU')||'";');
+            htp.p('const CLIENTE = "'||nvl(ws_id_cliente, CD_CLIENTE_GERAL)||'";');
             htp.p('const CD_PQS = "'||ws_id_pesquisa||'";');
             
         htp.p('</script>');
@@ -81,50 +81,51 @@ CREATE OR REPLACE PACKAGE BODY PESQUISA  IS
 
                 htp.p('<div class="spinner"></div>');
 
-                 htp.p('<script>');
-                        htp.p('var redirecionarDepois = () => {');
-                            htp.p('    window.history.replaceState({}, document.title, "http://cloud.upquery.com/conhecimento/dwu.pesquisa.main");');
-                        htp.p('}');
-                    htp.p('</script>');
-                            htp.p('<body onload="setTimeout(redirecionarDepois, 100);">');
+                --     htp.p('<script>');
+                --         htp.p('var redirecionarDepois = () => {
+                --             window.history.replaceState({}, document.title, "/conhecimento/dwu.pesquisa.main");
+                --         };');
+                --     htp.p('</script>');
+                -- htp.p('<body onload="setTimeout(redirecionarDepois, 100);">');
                                                                         
                 htp.p('<div id="main" class="bgimg">');
 
                     htp.p('<div id="container" class="container">');
+
                         select ds_pesquisa, ds_titulo into ws_ds_pesquisa, ws_ds_titulo from pqs_pesquisas where cd_pesquisa = ws_id_pesquisa; 
+
                         htp.p('<div class="logo-up">');
-                            --htp.p('<img class="img-logo-up"src="dwu.fcl.download?arquivo=logo-upquery-pesquisa.png" width="360" height="214">');
                             htp.p('<img class="img-logo-up"src="dwu.fcl.download?arquivo=logo-upquery-pesquisa.png" width="400">');
                         htp.p('</div>');
                         htp.p('<h3>'||ws_ds_titulo||'</h3>');
                         htp.p('<p>'||ws_ds_pesquisa||'</p>');
-                    
                             
-                        pesquisa.monta_pergunta(ws_id_pesquisa);                    
+                        pesquisa.monta_pergunta(ws_id_pesquisa);     
+
                         htp.p('<div class="centralizarDivBotao">');
-                            htp.p('<button id="button-enviar" class="botao-enviar" onclick="ColetaDados()">Enviar</button>');
+                            htp.p('<button id="button-enviar" class="botao-enviar" onclick="enviarFormulario()">Enviar</button>');
                         htp.p('</div>');                             
                     htp.p('</div>');
 
-                        htp.p('<div class="aviso" id="aviso-hidden">');
-                            htp.p('<span id="aviso-validacao">Aviso tal</span>');
-                            htp.p('<span class="fechar-aviso" onclick="fecharAviso()">FECHAR</span>');
-                        htp.p('</div>');
+                    htp.p('<div class="aviso" id="aviso-hidden">');
+                        htp.p('<span id="aviso-validacao">Aviso tal</span>');
+                        htp.p('<span class="fechar-aviso" onclick="fecharAviso()">FECHAR</span>');
+                    htp.p('</div>');
 
-                        htp.p('<div class="poppup" id="mostrarPop">');
-                            htp.p('<div class="pqs-agradecimento">');
-                                htp.p('<span class="fechar-aviso-pop" onclick="fecharAvisoPop()">FECHAR</span>');
-                                    htp.p('<div class="logo-up-pop">');
-                                        --htp.p('<img class="img-logo-up"src="dwu.fcl.download?arquivo=logo-upquery-pesquisa.png" width="360" height="214">');
-                                        htp.p('<img class="img-logo-up"src="dwu.fcl.download?arquivo=logo-upquery-pesquisa.png" width="400">');
-                                    htp.p('</div>');
-                                htp.p('<h2 class="pop-h2">Sua pesquisa foi enviada com sucesso!</h2>');
-                                htp.p('<span class="pop-span">UpQuery agradece!</span>');
-                                htp.p('<div class="botao-pop">');
-                                    htp.p('<a href="https://www.upquery.com/" target="_blank"> <button class="pop-site" >Clique aqui e conheça nosso site</button></a>');
+                    htp.p('<div class="poppup" id="mostrarPop">');
+                        htp.p('<div class="pqs-agradecimento">');
+                            htp.p('<span class="fechar-aviso-pop" onclick="fecharAvisoPop()">FECHAR</span>');
+                                htp.p('<div class="logo-up-pop">');
+                                    --htp.p('<img class="img-logo-up"src="dwu.fcl.download?arquivo=logo-upquery-pesquisa.png" width="360" height="214">');
+                                    htp.p('<img class="img-logo-up"src="dwu.fcl.download?arquivo=logo-upquery-pesquisa.png" width="400">');
                                 htp.p('</div>');
+                            htp.p('<h2 class="pop-h2">Sua pesquisa foi enviada com sucesso!</h2>');
+                            htp.p('<span class="pop-span">UpQuery agradece!</span>');
+                            htp.p('<div class="botao-pop">');
+                                htp.p('<a href="https://www.upquery.com/" target="_blank"> <button class="pop-site" >Clique aqui e conheça nosso site</button></a>');
                             htp.p('</div>');
                         htp.p('</div>');
+                    htp.p('</div>');
                     
 				htp.p('</div>');
                 
@@ -250,7 +251,7 @@ CREATE OR REPLACE PACKAGE BODY PESQUISA  IS
     PROCEDURE MONTA_PERGUNTA (PRM_ID_PESQUISA VARCHAR2) AS
         
         cursor crs_monta_pergunta is
-                select cd_pesquisa, cd_pergunta, ds_pergunta, ds_grupo, nr_ordem, tp_resposta, id_obrigatorio, id_multipla, id_justificativa
+                select cd_pesquisa, cd_pergunta, ds_pergunta, ds_grupo, nr_ordem, tp_resposta, id_obrigatorio, id_multipla, id_justificativa, id_unico
                 from pqs_perguntas
                 where	cd_pesquisa = prm_id_pesquisa
                 order by cd_pergunta;
@@ -259,7 +260,7 @@ CREATE OR REPLACE PACKAGE BODY PESQUISA  IS
         ws_count number;
         ws_class  varchar2(100);
         ws_style  varchar2(100);
-        ws_tag    varchar2(200);        
+        ws_tag    varchar2(500);        
         ws_id_perg varchar2(100);
 
     begin
@@ -269,7 +270,10 @@ CREATE OR REPLACE PACKAGE BODY PESQUISA  IS
 				exit when crs_monta_pergunta%notfound;
 
                 htp.p('<div class="pergunta">');
-                   htp.p('<span class="tit-pergunta">'||ws_monta_pergunta.ds_pergunta||'</span>'); 
+                    htp.p('<span class="tit-pergunta">'
+                        ||case when ws_monta_pergunta.nr_ordem > 0 then ws_monta_pergunta.nr_ordem end
+                        ||case when ws_monta_pergunta.nr_ordem > 0 then '. ' end||ws_monta_pergunta.ds_pergunta||
+                    '</span>'); 
                 htp.p('</div>');
                 htp.p('<div class="resposta">');
 
@@ -279,11 +283,20 @@ CREATE OR REPLACE PACKAGE BODY PESQUISA  IS
                     end if;    
                     --htp.p('<div class="'||ws_class||'" id="perg-'||ws_monta_pergunta.cd_pergunta||'" data-resposta="">');
 
-                    if upper(ws_monta_pergunta.tp_resposta) in ('STAR','PESO', 'CHECKBOX', 'RADIO', 'RADIO2', 'BOTAO', 'TEXTO', 'EMOJI') then
+                    if upper(ws_monta_pergunta.tp_resposta) in ('STAR','PESO', 'CHECKBOX', 'RADIO', 'RADIO2', 'BOTAO', 'TEXTO', 'TEXTO2', 'EMOJI') then
                         ws_class := upper(ws_monta_pergunta.tp_resposta);
+
                         if ws_monta_pergunta.id_obrigatorio = 'S' then 
                             ws_class := ws_class||' obrigatorio';
-                        end if;         
+                        end if;    
+
+                        if ws_monta_pergunta.id_unico = 'S' then
+                            ws_class := ws_class||'" data-unico="S';
+                        end if;     
+
+                        if upper(ws_monta_pergunta.tp_resposta) = 'CHECKBOX' or ws_monta_pergunta.id_multipla = 'S' then
+                            ws_class := ws_class||'" data-multipla="S';
+                        end if;    
 
                         htp.p('<div class="'||ws_class||'" id="perg-'||ws_monta_pergunta.cd_pergunta||'">');
 
@@ -305,7 +318,7 @@ CREATE OR REPLACE PACKAGE BODY PESQUISA  IS
                                 end if;   
                             end if;
                             
-                            ws_tag := ws_style||' title="'||a.ds_opcao||'" class="s-'||lower(ws_monta_pergunta.tp_resposta)||'" id="'||ws_monta_pergunta.cd_pergunta||'-'||a.cd_opcao||'" data-perg="perg-'||ws_monta_pergunta.cd_pergunta||'" data-valor="'||a.vl_opcao||'" data-total="'||ws_count||'"';
+                            ws_tag := ws_style||' title="'||a.ds_opcao||'" class="s-'||lower(ws_monta_pergunta.tp_resposta)||' campo" id="'||ws_monta_pergunta.cd_pergunta||'-'||a.cd_opcao||'" data-perg="perg-'||ws_monta_pergunta.cd_pergunta||'" data-valor="'||a.vl_opcao||'" data-total="'||ws_count||'"';
 
                             if upper(ws_monta_pergunta.tp_resposta) = 'PESO' then 
                                 htp.p('<a '||ws_tag||'>'||a.vl_opcao||'</a>');
@@ -319,8 +332,11 @@ CREATE OR REPLACE PACKAGE BODY PESQUISA  IS
                                 htp.p('<input type="radio" name="radio-'||ws_monta_pergunta.cd_pergunta||'" '||ws_tag||'"><label for="'||ws_monta_pergunta.cd_pergunta||'-'||a.cd_opcao||'"> '||a.vl_opcao||'</label>');
 
                             elsif upper(ws_monta_pergunta.tp_resposta) = 'RADIO2' then
-                                htp.p('<span><input type="radio" name="radio-'||ws_monta_pergunta.cd_pergunta||'" '||ws_tag||'"><label for="'||ws_monta_pergunta.cd_pergunta||'-'||a.cd_opcao||'"> '||a.ds_opcao||'</label></span>');
-
+                                -- htp.p('<span><input type="radio" name="radio-'||ws_monta_pergunta.cd_pergunta||'" '||ws_tag||'"><label for="'||ws_monta_pergunta.cd_pergunta||'-'||a.cd_opcao||'"> '||a.ds_opcao||'</label></span>');
+                                htp.p('<label for="'||ws_monta_pergunta.cd_pergunta||'-'||a.cd_opcao||'">');
+                                    htp.p('<input type="radio" name="radio-'||ws_monta_pergunta.cd_pergunta||'" '||ws_tag||' />');
+                                    htp.p(a.ds_opcao);
+                                htp.p('</label>');
                             elsif upper(ws_monta_pergunta.tp_resposta) = 'BOTAO' then
                                 htp.p('<button type="checkbox" '||ws_tag||' >'||a.vl_opcao||'</button>');
 
@@ -332,6 +348,8 @@ CREATE OR REPLACE PACKAGE BODY PESQUISA  IS
                             
                             elsif upper(ws_monta_pergunta.tp_resposta) = 'STAR' then
                                 htp.p('<span '||ws_tag||'>');
+                            elsif upper(ws_monta_pergunta.tp_resposta) = 'TEXTO2' then
+                                htp.p('<input type="text" name="campo-texto-simples" placeholder="'||nvl(a.ds_opcao, 'Responda aqui')||'" '||ws_tag||'/>');
                             end if;
                         end loop;
 
@@ -350,14 +368,16 @@ CREATE OR REPLACE PACKAGE BODY PESQUISA  IS
                     if ws_monta_pergunta.id_justificativa = 'S' and ws_monta_pergunta.tp_resposta not in ('TEXTO') then
                         htp.p('<div class="abre-input-texto">');   
                             htp.p('<div class="abre-input">');
-                                htp.p('<textarea maxlength="500" placeholder="Justifique sua resposta" data-obrigatorio="'||ws_monta_pergunta.id_obrigatorio||'" ></textarea>');
+                                htp.p('<textarea maxlength="500" placeholder="Justifique sua resposta" data-obrigatorio="'||ws_monta_pergunta.id_obrigatorio||'" class="justificativa"></textarea>');
                             htp.p('</div>');
                         htp.p('</div>');
                     end if;
                     htp.p('</div>');
             end loop;
         close crs_monta_pergunta;
-
+    exception
+      when others then
+        htp.p('ERRO MONTA PERGUNTA: '||sqlerrm||' - '||DBMS_UTILITY.FORMAT_ERROR_BACKTRACE);
     end MONTA_PERGUNTA;
     
     PROCEDURE GRAVA_RESPOSTA (PRM_ID_PESQUISA   VARCHAR2 DEFAULT NULL,

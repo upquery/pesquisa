@@ -16,7 +16,7 @@ id_obrigatorio  varchar2(1),    --  (S/N)
 id_multipla     varchar2(1) );  --  (S/N) 
 alter table PERGUNTAS add constrait pk_PERGUNTAS primary key (cd_pesquisa, cd_pergunta); 
 create index idx_PERGUNTAS_001 on PERGUNTAS (cd_pesquisa);
-
+alter table PERGUNTAS add ID_UNICO VARCHAR2(1); -- (S/N)
 
 create table PERGUNTA_OPCAO ( 
 cd_pesquisa     varchar2(20),
