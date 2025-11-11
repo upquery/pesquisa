@@ -548,8 +548,8 @@ CREATE OR REPLACE PACKAGE BODY PESQUISA  IS
 
             ws_cd_pergunta := resp.get_string('cd_pergunta');
             ws_cd_opcao := resp.get_string('cd_opcao');
-            ws_vl_resposta := resp.get_string('vl_resposta');
-            ws_vl_justificativa := resp.get_string('vl_justificativa');
+            ws_vl_resposta := trim(resp.get_string('vl_resposta'));
+            ws_vl_justificativa := trim(resp.get_string('vl_justificativa'));
 
             select count(*), max(id_obrigatorio), max(id_unico) into ws_count, ws_id_obrigatorio, ws_id_unico 
             from pqs_perguntas where cd_pesquisa = ws_cd_pesquisa and cd_pergunta = ws_cd_pergunta;
