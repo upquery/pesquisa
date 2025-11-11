@@ -511,7 +511,7 @@ function enviarFormulario(btn) {
                     return;
                 };
                 if(response.startsWith('ERRO')){
-                    const [err_pergs, err_msg, err_except] = response.substring(5).split('|');
+                    let [err_pergs, err_msg, err_except] = response.substring(5).split('|');
                     let firstTitp;
                     err_pergs && err_pergs.split(',').forEach((p,i) => {
                         const titp = document.getElementById('tit-perg-'+p);
@@ -520,16 +520,17 @@ function enviarFormulario(btn) {
                         }
                         titp?.classList.add('erro');
                     });
+                    err_msg = err_msg.trim();
                     if(err_msg == 'UNICO'){
                         avisoDiv('Pesquisa já respondida com essas informações!');
                     }else if(err_msg == 'OBRIGATORIO'){
                         avisoDiv('Pergunta obrigatória não informada!');
-                    }else if(err_msg == 'OBRIGATORIO'){
+                    }else if(err_msg == 'GERAL'){
                         avisoDiv('Erro ao enviar!');
                     }else{
                         avisoDiv(err_msg);
                     }
-                    console.err(err_msg, err_except || '')
+                    console.error(err_msg, err_except || '')
                     firstTitp?.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }
             })
@@ -538,7 +539,7 @@ function enviarFormulario(btn) {
                     btn.classList.remove('disabled');
                 }, 1000);
             })
-            .catch(console.err);
+            .catch(console.error);
         
         
     }catch(err){
