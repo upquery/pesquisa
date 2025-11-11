@@ -515,9 +515,14 @@ CREATE OR REPLACE PACKAGE BODY PESQUISA  IS
         ws_cd_cliente  := nvl(ws_json.get_string('cd_cliente'),'999999999');
         ws_cd_usuario  := upper(ws_json.get_string('cd_usuario'));
 
+        select count(*) into ws_count from pqs_pesquisas where cd_pesquisa = ws_cd_pesquisa and id_situacao <> 'I'; 
+        if ws_count = 0 then
+            htp.p('ERRO||PESQUISA INDISPONÍVEL');
+            return;
+        end if;
+
         select count(*), count(decode(id_obrigatorio,'S',1,0)) into ws_count, ws_total_obrig from pqs_perguntas where cd_pesquisa = ws_cd_pesquisa;
         if ws_count = 0 then 
-            rollback;
             htp.p('ERRO||NENHUMA PERGUNTA ENCONTRADA PARA ESSA PESQUISA');
             return;
         end if;
@@ -526,7 +531,6 @@ CREATE OR REPLACE PACKAGE BODY PESQUISA  IS
         select count(distinct dh_resposta) into ws_count from PQS_RESPOSTAS 
         where cd_pesquisa = ws_cd_pesquisa and cd_cliente = ws_cd_cliente and upper(cd_usuario) = ws_cd_usuario and ws_cd_usuario <> 'DWU' ;
         if ws_count > 0 then
-            rollback;
             htp.p('ERRO||USUÁRIO "'||upper(ws_cd_usuario)||'" JÁ RESPONDEU ESSA PESQUISA');
             return;
         end if;
@@ -534,7 +538,6 @@ CREATE OR REPLACE PACKAGE BODY PESQUISA  IS
         ws_respostas := ws_json.get_array('respostas');
         
         if ws_respostas.get_size = 0 then
-            rollback;
             htp.p('ERRO||NENHUMA RESPOSTA REGISTRADA');
             return;
         end if;
