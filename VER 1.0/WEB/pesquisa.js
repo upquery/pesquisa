@@ -524,6 +524,8 @@ function enviarFormulario(btn) {
                         avisoDiv('Pesquisa já respondida com essas informações!');
                     }else if(err_msg == 'OBRIGATORIO'){
                         avisoDiv('Pergunta obrigatória não informada!');
+                    }else if(err_msg == 'OBRIGATORIO'){
+                        avisoDiv('Erro ao enviar!');
                     }else{
                         avisoDiv(err_msg);
                     }
