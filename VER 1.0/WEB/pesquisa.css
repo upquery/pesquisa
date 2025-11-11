@@ -284,7 +284,7 @@ a:hover.s-emoji {
   transform: translateY(4px);
  }
 
-.e-selected {
+.s-emoji.selected {
   background-color: yellow;
 }
  
@@ -460,9 +460,9 @@ button {
   font-weight: bold;
 }
 
-.selected, .p-selected, .b-selected, .e-selected {
+.s-peso.selected, .s-botao.selected, .s-emoji.selected {
   box-shadow: 1px 4px #FFF !important;
-  /* transform: translateY(4px); */
+  transform: translateY(4px);
 }
 
 
@@ -489,37 +489,49 @@ button {
   font-family: var(--fonte-terciaria);
 }
 
+.botao-enviar.disabled{
+  filter: brightness(.6);
+  pointer-events: none;
+}
+
 .botao-enviar-selected {
   box-shadow: 1px 4px #FFF !important;
   transform: translateY(4px);
 }
 
 .aviso {
-  height: 70px;
-  width: 261px;
+  /* height: 70px;
+  width: 261px; */
   background: #191147;
   border-radius: 8px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin-left: 75%;
-  visibility: hidden;
-  margin-top: 25px;
+  column-gap: 30px;
+  /* justify-content: center; */
+  /* margin-left: 75%; */
+  opacity: 0;
+  transform: translateY(50px);
+  /* margin-top: 25px; */
   position: fixed;
   bottom: 20px;
   right: 20px;
-  padding: 10px;
-  transition: opacity 5s, transform 3s;
+  padding: 20px;
+  /* transition: opacity 5s, transform 3s; */
+  transition: all .3s ease-in-out;
+}
+.aviso.show{
+  opacity: 1;
+  transform: translateY(0px);
 }
 
 .aviso.active {
   transform: translateZ(-10px);
-}
+} 
 
 .fechar-aviso {
-  position: absolute;
-  top: 40%;
-  right: 10px;
+  /* position: absolute; */
+  /* top: 40%; */
+  /* right: 10px; */
   color: var(--button-background);
   font-weight: bold;
   font-size: 17px;
@@ -531,11 +543,14 @@ span#aviso-validacao {
   color: white;
   font-family: var(--fonte-terciaria);
   font-size: 16px;
-  text-align: center;
+  /* text-align: center; */
   margin: 0;
   justify-content: left;
-  flex-basis: calc(100% - 80px);
-  margin-right: 90px;
+  flex-wrap: wrap;
+  max-width: 300px;
+  width: fit-content;
+  /* flex-basis: calc(100% - 80px); */
+  /* margin-right: 90px; */
 }
 
 #mostrarPop {
@@ -713,6 +728,13 @@ p#agrad {
   margin-right: 10px;
 }
 
+input[type="radio"], input[type="checkbox"]{
+  cursor: pointer;
+}
+
+.erro{
+  color: red;
+}
 
 @media (orientation: landscape) and (max-width: 900px) {
   .container {
